@@ -13,26 +13,34 @@ struct List {
 
 class Graph {
     int vertices;
-    struct List* adjacencyList;
+    struct List *adjacencyList;
 
 public:
-    Graph(int vertices){
+    Graph(int vertices) {
         this->vertices = vertices;
         adjacencyList = new List[vertices];
-        for (int i = 0; i < vertices; i++){
+        for (int i = 0; i < vertices; i++) {
             adjacencyList[i].head = NULL;
         }
     }
 
-    Node* newAdjListNode(int data)
-    {
-        Node* nextNode = new Node;
+    Node *newAdjListNode(int data) {
+        Node *nextNode = new Node;
         nextNode->data = data;
         nextNode->next = NULL;
         return nextNode;
     }
 
-    boolean ReadGraph() {}
+    boolean ReadGraph(char *arg[]) {
+        std::ifstream inputFile(arg[1]);
+        if (!inputFile.is_open()) {
+            std::cout << "Error opening file " << arg[1] << std::endl;
+        } else {
+            while (!inputFile.eof()) {
+                //TODO
+            }
+        }
+    }
 
     void TopologicalSort() {}
 
@@ -41,14 +49,7 @@ public:
     void MinimumSpanningTree() {}
 };
 
-int main(char *argv[]) {
-    std::ifstream inputFile(argv[1]);
-    if (!inputFile.is_open()) {
-        std::cout << "Error opening file " << argv[1] << std::endl;
-    } else {
-        while (!inputFile.eof()) {
-            //TODO
-        }
-    }
+int main() {
+
     return 0;
 }
