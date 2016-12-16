@@ -1,4 +1,4 @@
-//#include <rpcndr.h>
+#include <rpcndr.h>
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -50,19 +50,25 @@ public:
         newNode->weight = weight;
         newNode->next = vertexArray[vertList.at(head)].head;
         vertexArray[vertList.at(head)].head = newNode;
-
     }
 
-//    boolean ReadGraph(char *arg[]) {
-//        ifstream inputFile(arg[1]);
-//        if (!inputFile.is_open()) {
-//            cout << "Error opening file " << arg[1] << endl;
-//        } else {
-//            while (!inputFile.eof()) {
-//                //TODO
-//            }
-//        }
-//    }
+    boolean readGraph(char arg[]) {
+        ifstream inputFile((const char *) arg[0]);
+        if (!inputFile.is_open()) {
+            cout << "Error opening file " << arg[1] << endl;
+        } else {
+            string str;
+            getline(inputFile, str);
+            vertices = stoi(str);
+            while (!inputFile.eof()) {
+                getline(inputFile, str);
+                if (strtol(str)){
+                    cout<<"test";
+                }
+                addVertex(str);
+            }
+        }
+    }
 
     void TopologicalSort() {}
 
@@ -71,21 +77,23 @@ public:
     void MinimumSpanningTree() {}
 };
 
-int main() {
+int main(char *arg[]) {
     Graph *graph = new Graph(5);
 
-    graph->addVertex("a");
-    graph->addVertex("b");
-    graph->addVertex("c");
-    graph->addVertex("d");
-    graph->addVertex("e");
+    graph->readGraph(arg[0]);
 
-    graph->addEdge("a", "b", 1);
-    graph->addEdge("a", "d", 3);
-    graph->addEdge("b", "c", 4);
-    graph->addEdge("d", "e", 6);
-    graph->addEdge("a", "c", 2);
-    graph->addEdge("b", "d", 3);
+//    graph->addVertex("a");
+//    graph->addVertex("b");
+//    graph->addVertex("c");
+//    graph->addVertex("d");
+//    graph->addVertex("e");
+//
+//    graph->addEdge("a", "b", 1);
+//    graph->addEdge("a", "d", 3);
+//    graph->addEdge("b", "c", 4);
+//    graph->addEdge("d", "e", 6);
+//    graph->addEdge("a", "c", 2);
+//    graph->addEdge("b", "d", 3);
 
     return 0;
 }
