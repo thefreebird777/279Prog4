@@ -84,7 +84,7 @@ public:
             new Graph(vertices);
             while (!inputFile.eof()) {
                 getline(inputFile, str);
-                if (atoi(str.c_str())!= 0) {
+                if (atoi(str.c_str()) != 0) {
                     edges = stoi(str);
                     break;
                 } else {
@@ -108,7 +108,8 @@ public:
 };
 
 int main() {
-    Graph *graph = new Graph(5); //int parameter shouldn't matter since graph will be recreated in the readGraph function
+    Graph *graph = new Graph(
+            5); //int parameter shouldn't matter since graph will be recreated in the readGraph function
     string path;
     cout << "Please enter a file path: ";
     cin >> path;
