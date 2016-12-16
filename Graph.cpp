@@ -1,7 +1,7 @@
-#include <rpcndr.h>
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <sstream>
 #include "Graph.h"
 
 using namespace std;
@@ -18,6 +18,7 @@ struct List {
 
 class Graph {
     int vertices;
+    int edges;
     struct List *vertexArray;
     int count = 0;
     map<string, int> vertList;
@@ -52,20 +53,30 @@ public:
         vertexArray[vertList.at(head)].head = newNode;
     }
 
-    boolean readGraph(char arg[]) {
+    bool readGraph(char arg[]) {
         ifstream inputFile((const char *) arg[0]);
         if (!inputFile.is_open()) {
-            cout << "Error opening file " << arg[1] << endl;
+            cout << "Error opening file " << endl;
         } else {
             string str;
+            string str2;
+            string str3;
             getline(inputFile, str);
             vertices = stoi(str);
             while (!inputFile.eof()) {
                 getline(inputFile, str);
-                if (strtol(str)){
-                    cout<<"test";
+                if (stoi(str)){
+                    edges = stoi(str);
+                    break;
+                }else{
+                    addVertex(str);
                 }
-                addVertex(str);
+            }
+            while (!inputFile.eof()) {
+                getline(inputFile, str);
+                stringstream line(str);
+                line >> str >> str2 >> str3;
+                    addEdge(str,str2,stoi(str3));
             }
         }
     }
