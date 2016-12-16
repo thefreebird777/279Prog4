@@ -49,8 +49,8 @@ public:
     void addEdge(string head, string vert, int weight) {
         Node *newNode = nextNode(vert);
         newNode->weight = weight;
-        newNode->next = vertexArray[vertList.at(head)].head;
-        vertexArray[vertList.at(head)].head = newNode;
+        newNode->next = vertexArray[vertList.at(head)].head; //TODO "map::at" throws out_of_range exception only in linux, works in windows?
+        vertexArray[vertList.at(head)].head = newNode; //TODO most likely same issue here
         /*the result of the adjacency graph will look something like this
          * example:
          *
@@ -108,13 +108,41 @@ public:
 };
 
 int main() {
-    Graph *graph = new Graph(
-            5); //int parameter shouldn't matter since graph will be recreated in the readGraph function
-    string path;
-    cout << "Please enter a file path: ";
-    cin >> path;
-    ifstream inputFile(path);
-    graph->readGraph(inputFile);
-
+    string response;
+    cout << "Would you like to enter a file? [y/n]" << endl;
+    cin >> response;
+    if (response == "y") {
+        Graph *graph = new Graph(
+                5); //int parameter shouldn't matter since graph will be recreated in the readGraph function
+        string path;
+        cout << "Please enter a file: ";
+        cin >> path;
+        ifstream inputFile(path);
+        graph->readGraph(inputFile);
+        cout << "Would you like to start over? [y/n]" << endl;
+        cin >> response;
+        if (response == "y") {
+            main();
+        } else if (response == "n") {
+            cout << "Goodbye" <<endl;
+        } else {
+            cout << "Entered incorrect key" << endl;
+            cout << "Would you like to start over? [y/n]" << endl;
+            cin >> response;
+            if (response == "y") {
+                main();
+            }else if (response == "n") {
+                cout << "Goodbye" << endl;
+            }else {
+                cout << "Incorrect key again. The program will now exit." << endl;
+                cout << "Goodbye" << endl;
+            }
+        }
+    } else if (response == "n") {
+        //TODO
+    } else {
+        cout << "Entered incorrect key" << endl;
+        main();
+    }
     return 0;
 }
