@@ -33,6 +33,10 @@ public:
         }
     }
 
+    ~Graph(){
+        vertList.clear();
+    }
+
     Node *nextNode(string vert) {
         Node *newNode = new Node;
         newNode->vert = vert;
@@ -49,8 +53,8 @@ public:
     void addEdge(string head, string vert, int weight) {
         Node *newNode = nextNode(vert);
         newNode->weight = weight;
-        newNode->next = vertexArray[vertList.at(head)].head; //TODO "map::at" throws out_of_range exception only in linux, works in windows?
-        vertexArray[vertList.at(head)].head = newNode; //TODO most likely same issue here
+        newNode->next = vertexArray[vertList.at(head)].head;
+        vertexArray[vertList.at(head)].head = newNode;
         /*the result of the adjacency graph will look something like this
          * example:
          *
@@ -93,6 +97,9 @@ public:
             }
             while (!inputFile.eof()) {
                 getline(inputFile, str);
+                if(str == ""){
+                    break;
+                }
                 stringstream line(str);
                 line >> str >> str2 >> str3;
                 addEdge(str, str2, stoi(str3));
@@ -112,8 +119,7 @@ int main() {
     cout << "Would you like to enter a file? [y/n]" << endl;
     cin >> response;
     if (response == "y") {
-        Graph *graph = new Graph(
-                5); //int parameter shouldn't matter since graph will be recreated in the readGraph function
+        Graph *graph = new Graph(5); //int parameter shouldn't matter since graph will be recreated in the readGraph function
         string path;
         cout << "Please enter a file: ";
         cin >> path;
