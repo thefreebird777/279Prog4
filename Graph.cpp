@@ -2,9 +2,11 @@
 #include <iostream>
 #include <fstream>
 #include "Graph.h"
+using namespace std;
 
 struct Node {
-    int adj;
+    string vert;
+    int weight;
     Node *next;
 };
 struct List {
@@ -24,38 +26,35 @@ public:
         }
     }
 
-    Node *nextNode(int adj) {
+    Node *nextNode(string vert) {
         Node *newNode = new Node;
-        newNode->adj = adj;
+        newNode->vert = vert;
         newNode->next = NULL;
         return newNode;
     }
 
-    void newEdge(int vert, int adj) {
-        Node *newNode = nextNode(adj);
-        newNode->next = vertexArray[vert].head;
-        vertexArray[vert].head = newNode;
-        newNode = nextNode(vert);
-        newNode->next = vertexArray[adj].head;
-        vertexArray[adj].head = newNode;
+    void newEdge(int head, string vert, int weight) {
+        Node *newNode = nextNode(vert);
+        newNode->next = vertexArray[head].head;
+        vertexArray[head].head = newNode;
     }
 
-    void test(){
+    void test() {
         for (int i = 1; i < 6; i++) {
             Node *printNode = vertexArray[i].head;
-            std::cout<<i;
+            cout << i;
             while (printNode) {
-                std::cout << "->" << printNode->adj;
+                cout << "->" << printNode->vert << "(" << printNode->weight << ")";
                 printNode = printNode->next;
             }
-            std::cout<<std::endl;
+            cout << endl;
         }
     }
 
 //    boolean ReadGraph(char *arg[]) {
-//        std::ifstream inputFile(arg[1]);
+//        ifstream inputFile(arg[1]);
 //        if (!inputFile.is_open()) {
-//            std::cout << "Error opening file " << arg[1] << std::endl;
+//            cout << "Error opening file " << arg[1] << endl;
 //        } else {
 //            while (!inputFile.eof()) {
 //                //TODO
@@ -73,21 +72,20 @@ public:
 int main() {
     Graph *graph = new Graph(5);
 
-    graph->nextNode(1);
-    graph->nextNode(2);
-    graph->nextNode(3);
-    graph->nextNode(4);
-    graph->nextNode(5);
+    graph->nextNode("a");
+    graph->nextNode("b");
+    graph->nextNode("c");
+    graph->nextNode("d");
+    graph->nextNode("e");
 
-    graph->newEdge(1, 2);
-    graph->newEdge(1, 4);
-    graph->newEdge(2, 3);
-    graph->newEdge(4, 5);
-    graph->newEdge(1, 3);
-    graph->newEdge(2, 4);
+    graph->newEdge(1, "b", 4);
+    graph->newEdge(1, "d", 3);
+    graph->newEdge(2, "c", 5);
+    graph->newEdge(4, "e", 6);
+    graph->newEdge(1, "c", 1);
+    graph->newEdge(2, "d", 2);
 
     graph->test();
-
 
 
     return 0;
