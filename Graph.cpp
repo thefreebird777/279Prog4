@@ -8,7 +8,7 @@ using namespace std;
 
 struct Node {
     string vert;
-    //int weight;
+    int weight;
     Node *next;
 };
 struct List {
@@ -35,6 +35,7 @@ public:
     Node *nextNode(string vert) {
         Node *newNode = new Node;
         newNode->vert = vert;
+        newNode->weight=NULL;
         newNode->next = NULL;
         return newNode;
     }
@@ -44,15 +45,13 @@ public:
         count++;
     }
 
-    void addEdge(string head, string vert) {
+    void addEdge(string head, string vert, int weight) {
         Node *newNode = nextNode(vert);
+        newNode->weight = weight;
         newNode->next = vertexArray[vertList.at(head)].head;
         vertexArray[vertList.at(head)].head = newNode;
 
     }
-
-
-
 
 //    boolean ReadGraph(char *arg[]) {
 //        ifstream inputFile(arg[1]);
@@ -81,13 +80,12 @@ int main() {
     graph->addVertex("d");
     graph->addVertex("e");
 
-    graph->addEdge("a", "b");
-    graph->addEdge("a", "d");
-    graph->addEdge("b", "c");
-    graph->addEdge("d", "e");
-    graph->addEdge("a", "c");
-    graph->addEdge("b", "d");
-
+    graph->addEdge("a", "b", 1);
+    graph->addEdge("a", "d", 3);
+    graph->addEdge("b", "c", 4);
+    graph->addEdge("d", "e", 6);
+    graph->addEdge("a", "c", 2);
+    graph->addEdge("b", "d", 3);
 
     return 0;
 }
