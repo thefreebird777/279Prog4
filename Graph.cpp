@@ -17,6 +17,13 @@ struct List {
     struct Node *head;
 };
 
+// Edge struct to hold edge data for finding MST
+struct Edge {
+    string source;
+    string sink;
+    int weight;
+} temp;
+
 
 class Graph {
     int vertices;
@@ -24,6 +31,7 @@ class Graph {
     struct List *vertexArray;
     int count = 0;
     map<string, int> vertList;
+    vector<Edge> kruskal;
 
 public:
 
@@ -117,7 +125,67 @@ public:
 
     void ShortestPath() {}
 
-    void MinimumSpanningTree() {}
+    bool ascend(Node i, Node j) { return i.weight < j.weight; }
+
+    bool cycleCheck(Edge n)
+    {
+        // true = cycle, false = no cycle
+        if (kruskal.size() == 0)
+            return false;
+
+	// check for cycle here
+
+        return true;
+    }
+
+    // Precondition for MST is that the graph is connected
+    void MinimumSpanningTree()
+    {
+        int total = 0; // total weight from tree
+
+        // will hold data for all edges
+        vector<Edge> data;
+
+        // loop through the adjacency list and get all edge data
+        for (int i = 0; i < edges; i++)
+        {
+            Node *x = vertexArray[i].head;
+            temp.source = x->vert;
+            x = x->next;
+            while (x)
+            { 
+                temp.sink = x->vert;
+                temp.weight = x->weight;
+                data.push_back(temp);
+                x = x->next;
+            }
+        }
+
+        // sort the edge data in ascending order by weight (possibly move up "ascend")
+//        sort(data.begin(), data.end(), ascend);
+
+        // loop through edge data determining which edges to add
+        int j = 0;
+        while (j < vertices-1)
+        {
+            if (!cycleCheck(data[j]))
+            {
+                kruskal.push_back(data[j]);
+                total += data[j].weight;
+            }
+            j++;
+        }
+
+        // print total tree weight and Kruskal edges
+        cout << "The Minimum Spanning Tree of this graph has a weight of " << total 
+             << ", and contains the following edges:" << endl;
+        for (int i = 0; i < kruskal.size(); i++)
+        {
+            cout << kruskal[i].source << " -> " << kruskal[i].sink << ", weight: "
+                 << kruskal[i].weight << endl;
+        }
+        cout << "MST Complete" << endl;
+    }
 };
 
 int main() {
