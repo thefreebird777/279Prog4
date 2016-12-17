@@ -33,7 +33,7 @@ public:
         }
     }
 
-    ~Graph(){
+    ~Graph() {
         vertList.clear();
     }
 
@@ -97,7 +97,7 @@ public:
             }
             while (!inputFile.eof()) {
                 getline(inputFile, str);
-                if(str == ""){
+                if (str == "") {
                     break;
                 }
                 stringstream line(str);
@@ -105,6 +105,10 @@ public:
                 addEdge(str, str2, stoi(str3));
             }
         }
+    }
+
+    bool doesExist(string v) {
+        return vertList.count(v) != 0;
     }
 
     void TopologicalSort() {}
@@ -119,7 +123,8 @@ int main() {
     cout << "Would you like to enter a file? [y/n]" << endl;
     cin >> response;
     if (response == "y") {
-        Graph *graph = new Graph(5); //int parameter shouldn't matter since graph will be recreated in the readGraph function
+        Graph *graph = new Graph(
+                5); //int parameter shouldn't matter since graph will be recreated in the readGraph function
         string path;
         cout << "Please enter a file: ";
         cin >> path;
@@ -130,22 +135,84 @@ int main() {
         if (response == "y") {
             main();
         } else if (response == "n") {
-            cout << "Goodbye" <<endl;
+            cout << "Goodbye" << endl;
         } else {
             cout << "Entered incorrect key" << endl;
-            cout << "Would you like to start over? [y/n]" << endl;
+            cout << "Would you like to start over? [y/N]" << endl;
             cin >> response;
             if (response == "y") {
                 main();
-            }else if (response == "n") {
+            } else if (response == "n") {
                 cout << "Goodbye" << endl;
-            }else {
+            } else {
                 cout << "Incorrect key again. The program will now exit." << endl;
                 cout << "Goodbye" << endl;
             }
         }
     } else if (response == "n") {
-        //TODO
+        bool x = true;
+        Graph *graph;
+        int vertices;
+        int edges;
+        while (x) {
+            cout << "How many vertices would you like?" << endl;
+            cin >> response;
+            if (atoi(response.c_str()) != 0) {
+                vertices = stoi(response);
+                graph = new Graph(vertices);
+                break;
+            } else {
+                cout << "Invalid response. Enter integer.";
+            }
+        }
+        for (int i = 0; i < vertices; i++) {
+            cout << "Enter the name of a vertex:" << endl;
+            cin >> response;
+            graph->addVertex(response);
+        }
+        while (x) {
+            cout << "How many edges would you like?" << endl;
+            cin >> response;
+            if (atoi(response.c_str()) != 0) {
+                edges = stoi(response);
+                break;
+            } else {
+                cout << "Invalid response. Enter integer.";
+            }
+        }
+        for (int i = 0; i < edges; i++) {
+            string first;
+            string second;
+            string w;
+            while (x) {
+                cout << "Enter the first vertex of the edge:" << endl;
+                cin >> first;
+                if (graph->doesExist(first)) {
+                    break;
+                } else {
+                    cout << "Invalid response. Vertex does not exist." << endl;
+                }
+            }
+            while (x) {
+                cout << "Enter the second vertex of the edge:" << endl;
+                cin >> second;
+                if (graph->doesExist(second)) {
+                    break;
+                } else {
+                    cout << "Invalid response. Vertex does not exist." << endl;
+                }
+            }
+            while (x) {
+                cout << "Enter the weight of the edge:" << endl;
+                cin >> w;
+                if (atoi(w.c_str()) != 0) {
+                    graph->addEdge(first, second, stoi(w));
+                    break;
+                } else {
+                    cout << "Invalid response. Enter integer." << endl;
+                }
+            }
+        }
     } else {
         cout << "Entered incorrect key" << endl;
         main();
