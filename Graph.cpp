@@ -2,6 +2,8 @@
 #include <fstream>
 #include <map>
 #include <sstream>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -120,38 +122,18 @@ public:
 
 int main() {
     string response;
+    Graph *graph;
     cout << "Would you like to enter a file? [y/n]" << endl;
     cin >> response;
     if (response == "y") {
-        Graph *graph = new Graph(
-                5); //int parameter shouldn't matter since graph will be recreated in the readGraph function
+        graph = new Graph(5); //int parameter shouldn't matter since graph will be recreated in the readGraph function
         string path;
         cout << "Please enter a file: ";
         cin >> path;
         ifstream inputFile(path);
         graph->readGraph(inputFile);
-        cout << "Would you like to start over? [y/n]" << endl;
-        cin >> response;
-        if (response == "y") {
-            main();
-        } else if (response == "n") {
-            cout << "Goodbye" << endl;
-        } else {
-            cout << "Entered incorrect key" << endl;
-            cout << "Would you like to start over? [y/N]" << endl;
-            cin >> response;
-            if (response == "y") {
-                main();
-            } else if (response == "n") {
-                cout << "Goodbye" << endl;
-            } else {
-                cout << "Incorrect key again. The program will now exit." << endl;
-                cout << "Goodbye" << endl;
-            }
-        }
     } else if (response == "n") {
         bool x = true;
-        Graph *graph;
         int vertices;
         int edges;
         while (x) {
@@ -216,6 +198,27 @@ int main() {
     } else {
         cout << "Entered incorrect key" << endl;
         main();
+    }
+    bool y = true;
+    while (y) {
+        cout << "Now that we have a graph, would you like to print out the:" << endl
+             << "[T] Topological Sort" << endl << "[S] Shortest Path" << endl << "[M] Minimum Spanning Tree" << endl
+             << endl << "Or would you like to" << endl << "[G] Make a new Graph" << endl << "[E] Exit" << endl;
+        cin >> response;
+        if (response == "T" || response == "t") {
+            graph->TopologicalSort();
+        } else if (response == "S" || response == "s") {
+            graph->ShortestPath();
+        } else if (response == "M" || response == "m") {
+            graph->MinimumSpanningTree();
+        } else if (response == "G" || response == "g") {
+            main();
+            break;
+        } else if (response == "E" || response == "e") {
+            break;
+        } else {
+            cout << "Invalid response." << endl;
+        }
     }
     return 0;
 }
